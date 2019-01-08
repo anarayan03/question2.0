@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import bean.ClaimBean;
 import bean.QuestionBean;
 import dao.CQuestionDaoImpl;
 import dao.IQuestionDao;
@@ -28,7 +29,7 @@ public class QuestionServiceImpl implements IQuestionService {
 	}
 
 	@Override
-	public boolean validateDetails(QuestionBean questionBean) throws QuestionException {
+	public boolean validateDetails(ClaimBean claimBean) throws QuestionException {
 		List<String> list = new ArrayList<>();
 
 		boolean result = true;
@@ -37,25 +38,25 @@ public class QuestionServiceImpl implements IQuestionService {
 		//
 		// list.add("Claim Number should be greater that 0");
 		// }
-		if (!isReasonValid(questionBean.getClaim_Reason())) {
+		if (!isReasonValid(claimBean.getClaimReason())) {
 			list.add("claim reason should be valid");
 		}
-		if (!isAccidentLocationValid(questionBean.getAccident_Location())) {
+		if (!isAccidentLocationValid(claimBean.getAccidentLocationStreet())) {
 			list.add("Location should be valid without numerics");
 		}
-		if (!isAccidentCityValid(questionBean.getAccident_City())) {
+		if (!isAccidentCityValid(claimBean.getAccidentCity())) {
 			list.add("city should be valid without numerics");
 		}
-		if (!isAccidentStateValid(questionBean.getAccident_State())) {
+		if (!isAccidentStateValid(claimBean.getAccidentState())) {
 			list.add("state should be valid without numerics");
 		}
-		if (!isAccidentZipValid(questionBean.getAccident_Zip())) {
+		if (!isAccidentZipValid(claimBean.getAccidentZip())) {
 			list.add("Enter valid ZIP Code");
 		}
 		// if (!isClaimTypeValid(claimBean.getClaim_Type())) {
 		// list.add("enter valid claim type");
 		// }
-		if (!isPolicyNumberValid(questionBean.getPolicy_Number())) {
+		if (!isPolicyNumberValid(claimBean.getPolicyNumber())) {
 		list.add("policy number should be greater than 0");
 		 }
 		if (!list.isEmpty()) {
@@ -68,9 +69,9 @@ public class QuestionServiceImpl implements IQuestionService {
 
 	}
 
-	private boolean isPolicyNumberValid(int policy_Number) {
+	private boolean isPolicyNumberValid(long l) {
 
-		return policy_Number > 0;
+		return l > 0;
 	}
 
 	/*private boolean isClaimTypeValid(String claim_Type) {
@@ -81,35 +82,35 @@ public class QuestionServiceImpl implements IQuestionService {
 		return matcher.matches();
 	}*/
 
-	private boolean isAccidentZipValid(long accident_Zip) {
-		return accident_Zip > 0;
+	private boolean isAccidentZipValid(long accidentZip) {
+		return accidentZip > 0;
 	}
 
-	private boolean isAccidentStateValid(String accident_State) {
+	private boolean isAccidentStateValid(String accidentState) {
 		String RegEx = "[a-z]{3,20}";
 		Pattern pattern = Pattern.compile(RegEx);
-		Matcher matcher = pattern.matcher(accident_State);
+		Matcher matcher = pattern.matcher(accidentState);
 		return matcher.matches();
 	}
 
-	private boolean isAccidentCityValid(String accident_City) {
+	private boolean isAccidentCityValid(String accidentCity) {
 		String RegEx = "[a-z]{3,20}";
 		Pattern pattern = Pattern.compile(RegEx);
-		Matcher matcher = pattern.matcher(accident_City);
+		Matcher matcher = pattern.matcher(accidentCity);
 		return matcher.matches();
 	}
 
-	private boolean isAccidentLocationValid(String accident_Location) {
+	private boolean isAccidentLocationValid(String accidentLocation) {
 		String RegEx = "[a-z]{3,20}";
 		Pattern pattern = Pattern.compile(RegEx);
-		Matcher matcher = pattern.matcher(accident_Location);
+		Matcher matcher = pattern.matcher(accidentLocation);
 		return matcher.matches();
 	}
 
-	private boolean isReasonValid(String claim_Reason) {
+	private boolean isReasonValid(String claimReason) {
 		String RegEx = "[a-z]{3,20}";
 		Pattern pattern = Pattern.compile(RegEx);
-		Matcher matcher = pattern.matcher(claim_Reason);
+		Matcher matcher = pattern.matcher(claimReason);
 		return matcher.matches();
 	}
 
@@ -119,9 +120,8 @@ public class QuestionServiceImpl implements IQuestionService {
 	}*/
 
 	@Override
-	public QuestionBean getPolicy_Number(QuestionBean questionBean) throws ClassNotFoundException, Exception {
+	public ClaimBean getPolicy_Number(ClaimBean claimBean) throws ClassNotFoundException, Exception {
 		iQuestionDao = new CQuestionDaoImpl();
-		return iQuestionDao.getPolicy_Number(questionBean);
+		return iQuestionDao.getPolicy_Number(claimBean);
 	}
-
 }

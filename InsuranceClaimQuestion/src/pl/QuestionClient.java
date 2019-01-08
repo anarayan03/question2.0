@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
 
+import bean.ClaimBean;
 import bean.QuestionBean;
 import exception.QuestionException;
 import service.IQuestionService;
@@ -17,6 +18,7 @@ public class QuestionClient {
 	static IQuestionService iQuestionService = null;
 	static QuestionServiceImpl questionServiceImpl = null;
 	static QuestionBean questionBean = new QuestionBean();
+	static ClaimBean claimBean = new ClaimBean();
 
 	public static void main(String[] args) throws Exception {
 		int weightage = 0;
@@ -27,15 +29,15 @@ public class QuestionClient {
 			// System.out.println("Enter the Claim Number");
 			// claimBean.setClaim_Number(sc.nextInt());
 			System.out.println("Enter claim Reason");
-			questionBean.setClaim_Reason(scanner.next());
+			claimBean.setClaimReason(scanner.next());
 			System.out.println("Enter Accident Location");
-			questionBean.setAccident_Location(scanner.next());
+			claimBean.setAccidentLocationStreet(scanner.next());
 			System.out.println("Enter Accident City");
-			questionBean.setAccident_City(scanner.next());
+			claimBean.setAccidentCity(scanner.next());
 			System.out.println("Enter Accident State");
-			questionBean.setAccident_State(scanner.next());
+			claimBean.setAccidentState(scanner.next());
 			System.out.println("Enter Accident Zip");
-			questionBean.setAccident_Zip(scanner.nextLong());
+			claimBean.setAccidentZip(scanner.nextLong());
 			System.out.println("Choose the below optoin to select the claim type");
 			int key = 0;
 			loop: do {
@@ -49,17 +51,17 @@ public class QuestionClient {
 					switch (key) {
 					case 1:
 						str = "Road Accident Claims";
-						questionBean.setClaim_Type(str);
+						claimBean.setClaimType(str);
 
 						break;
 					case 2:
 						str = "Medical Negligence Claims";
-						questionBean.setClaim_Type(str);
+						claimBean.setClaimType(str);
 
 						break;
 					case 3:
 						str = "Trip Accident Claims";
-						questionBean.setClaim_Type(str);
+						claimBean.setClaimType(str);
 
 						break;
 					default:
@@ -77,13 +79,17 @@ public class QuestionClient {
 				}
 			} while (key > 3);
 			System.out.println("Enter Policy Number");
-			questionBean.setPolicy_Number(scanner.nextInt());
-
+			try
+			{
+				claimBean.setPolicyNumber(scanner.nextInt());
+			}catch (Exception e) {
+				System.out.println(e);
+			}
 			iQuestionService = new QuestionServiceImpl();
 			try {
-				boolean a = iQuestionService.validateDetails(questionBean);
+				boolean a = iQuestionService.validateDetails(claimBean);
 				if (a == true) {
-					questionBean = iQuestionService.getPolicy_Number(questionBean);
+					claimBean = iQuestionService.getPolicy_Number(claimBean);
 				}
 				System.out.println("data inserted successfully");
 			} catch (QuestionException e) {
@@ -127,7 +133,7 @@ public class QuestionClient {
 				System.out.println("Wrong choice");
 				break;
 			}
-			QuestionBean questionBean = null;
+			//QuestionBean questionBean = null;
 
 			questionBean = new QuestionBean();
 			questionServiceImpl = new QuestionServiceImpl();
@@ -181,25 +187,25 @@ public class QuestionClient {
 				if (weightage >= 1600 && weightage <= 2600) {
 					claimNo = "A";
 					System.out.println(claimNo);
-					claimNo += questionBean.getClaim_number();
+					//claimNo += questionBean.setClaim_number();
 				}
 
 				else if (weightage > 2600 && weightage <= 3600) {
 					claimNo = "B";
 					System.out.println(claimNo);
-					claimNo += questionBean.getClaim_number();
+					//claimNo += questionBean.getClaim_number();
 				} else if (weightage > 3600 && weightage <= 4600) {
 					claimNo = "C";
 					System.out.println(claimNo);
-					claimNo += questionBean.getClaim_number();
+					//claimNo += questionBean.getClaim_number();
 				} else if (weightage > 4600 && weightage <= 5600) {
 					claimNo = "D";
 					System.out.println(claimNo);
-					claimNo += questionBean.getClaim_number();
+					//claimNo += questionBean.getClaim_number();
 				} else if (weightage > 5600) {
 					claimNo = "E";
 					System.out.println(claimNo);
-					claimNo += questionBean.getClaim_number();
+					//claimNo += questionBean.getClaim_number();
 				} else {
 					claimNo = null;
 				}
